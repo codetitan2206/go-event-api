@@ -86,7 +86,7 @@ func (m *AttendeeModel) Delete(userId, eventId int) error {
 	return nil
 }
 
-func (m EventModel) GetByAttendee(attendeeId int) ([]Event, error) {
+func (m AttendeeModel) GetEventsByAttendee(attendeeId int) ([]Event, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Second)
 	defer cancel()
 
