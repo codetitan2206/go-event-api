@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"rest-api-in-gin/internal/database"
 	"time"
@@ -58,6 +59,7 @@ func (app *application) registerUser(c *gin.Context) {
 
 	err = app.models.Users.Insert(&user)
 	if err != nil {
+		fmt.Printf("DB Insert error: %v\n", err) // 👈 log actual error
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Could not create user"})
 		return
 	}
@@ -110,6 +112,8 @@ func (app *application) login(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, loginResponse{Token: tokenString})
-
+	c.JSON(http.StatusOK, loginResponse{
+		Token:  tokenString,
+		UserId: existingUser.Id, // 👈 fix
+	})
 }
